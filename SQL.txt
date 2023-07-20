@@ -1,0 +1,54 @@
+1) Récupérer tous les albums :
+
+- SELECT Title FROM albums
+
+2) Récupérer tous les albums dont le titre contient "Great" (indice) :
+
+- SELECT * FROM albums WHERE Title LIKE '%Great %'
+
+3) Donner le nombre total d'albums contenus dans la base (sans regarder les id bien sûr)
+
+- SELECT COUNT(*) FROM (SELECT Title FROM albums )
+
+4) Supprimer tous les albums dont le nom contient "music"
+
+- SELECT * FROM albums WHERE Title NOT LIKE '%music%'
+
+5) Récupérer tous les albums écrits par AC/DC
+
+- SELECT * FROM albums a, artists b WHERE a.ArtistID = b.ArtistId AND b.Name = 'AC/DC'
+
+6) Récupérer tous les titres des albums de AC/DC
+
+- SELECT Title FROM albums a, artists b WHERE a.ArtistId = b.ArtistId AND b.Name = 'AC/DC'
+
+7) Récupérer la liste des titres de l'album "Let There Be Rock"
+
+- SELECT t.Name, t.AlbumId, a.Title, b.Name FROM albums a, artists b, tracks t WHERE a.ArtistID = b.ArtistId AND a.AlbumId = t.AlbumId AND b.Name = 'AC/DC'
+
+8) Récupérer la liste des titres de l'album "Let There Be Rock"
+
+- SELECT t.Name, t.AlbumId, a.Title FROM albums a, tracks t WHERE a.AlbumId = t.AlbumId AND a.Title = 'Let There Be Rock'
+
+9) Afficher le prix de cet album ainsi que sa durée totale
+
+- SELECT sum(t.Milliseconds)/60000 AS Durée_en_min, sum(t.UnitPrice) AS price, a.Title FROM albums a, tracks t WHERE a.AlbumId = t.AlbumId AND a.Title = 'Let There Be Rock'
+
+9) Afficher le coût de l'intégralité de la discographie de "Deep Purple"
+
+- SELECT ROUND(sum(t.UnitPrice),2) AS price, a.Title, b.Name FROM albums a, artists b, tracks t WHERE a.AlbumId = t.AlbumId AND a.ArtistID = b.ArtistId AND b.Name = 'Deep Purple'
+
+10) Créer l'album de ton artiste favori en base, en renseignant correctement les trois tables albums, artists et tracks
+
+- INSERT INTO
+    albums(AlbumId, Title, ArtisId)
+Values
+    (400, 'Macarena', 500);
+INSERT INTO
+    artists(ArtistId, Name)
+Values 
+    (500, 'LOS DEL RIO');
+INSERT INTO
+    tracks(Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice)
+Values 
+    ('MACARENA', 400, 12, 66, 'LOS DEL RIO', 198000, 2, 0.99);
